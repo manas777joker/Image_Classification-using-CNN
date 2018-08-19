@@ -1,5 +1,8 @@
 import numpy
+#import numpy as np
 
+import matplotlib 
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 from keras.layers import Dropout
@@ -43,8 +46,8 @@ model.add(Dense(512, activation='relu', kernel_constraint=maxnorm(3)))
 model.add(Dropout(0.5))
 model.add(Dense(num_classes, activation='softmax'))
 # Compile model
-epochs = 10
-lrate = 0.001
+epochs = 25
+lrate = 0.01
 decay = lrate/epochs
 sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
 model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
@@ -65,6 +68,19 @@ with open("model_face.json", "w") as json_file:
 # serialize weights to HDF5
 model.save_weights("model_face.h5")
 print("Saved model to disk")
+
+plt.style.use("ggplot")
+plt.figure
+N = epochs
+
+plt.plot(numpy.arange(0,N), H.history["loss"], label="train_loss")
+plt.plot(numpy.arange(0,N), H.history["val_loss"], label="val_loss")
+plt.plot(numpy.arange(0,N), H.history["acc"], label="train_acc")
+plt.plot(numpy.arange(0,N), H.history["val_acc"], label="val_acc")
+plt.xlabel("Epoch no.")
+plt.ylabel("Loss/Accuracy")
+plt.legend(loc="upper right")
+plt.savefig("training-accuracy.jpg")
 
 
 

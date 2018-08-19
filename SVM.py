@@ -5,8 +5,8 @@ from sklearn.cross_validation import train_test_split
 from sklearn import metrics 
 import numpy as np
 
-x = np.load('X.npy')
-y = np.load('Y.npy')
+x = np.load('info.npy')
+y = np.load('lb.npy')
 
 x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.025)
 print len(x_train)

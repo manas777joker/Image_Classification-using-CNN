@@ -24,6 +24,7 @@ loaded_model = model_from_json(loaded_model_json)
 loaded_model.load_weights("model_face.h5")
 print("Model is now loaded in the disk")
 
+l=[]
 lis = os.listdir("/home/joker/Desktop/image_classification/predict")
 for i in range(0,len(lis)):
 
@@ -40,12 +41,19 @@ for i in range(0,len(lis)):
 	prediction=loaded_model.predict(image)
 	#print(prediction)
 	j=np.max(prediction)
-	print(j)
+	l.append(j)
+	#print(j)
 	print(int_to_word_out[np.argmax(prediction)])
 	input1 = imutils.resize(input1, width=250)
 	label = "{}: {:.2f}%".format(int_to_word_out[np.argmax(prediction)], j*100)
 	cv2.putText(input1,label, (3,9), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,255,0), 1)
 	cv2.imshow("Input",input1)
-	cv2.waitKey(1000)
+	cv2.waitKey(10000)
 	#f=open('output.txt','w')
 	#f.close()
+sum1=0
+print(l)
+for i in range(0,len(l)):
+	sum1 += l[i]
+
+print((sum1/len(l)*100))
